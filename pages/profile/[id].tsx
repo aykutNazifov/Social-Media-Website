@@ -4,6 +4,9 @@ import LeftSideBar from "../../components/LeftSideBar";
 import RightSideBar from "../../components/RightSideBar";
 import SinglePost from "../../components/SinglePost";
 import { ThemeContext } from "../../context/ThemeContextProvider";
+import Image from "next/image";
+import { FaCity, FaFirefoxBrowser } from "react-icons/fa";
+import { MdWork } from "react-icons/md";
 
 const posts = [
   {
@@ -36,7 +39,36 @@ const ProfilePage = () => {
               darkMode ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
-            <div>Progile Info</div>
+            <div>
+              <div className="flex items-center justify-between my-5">
+                <h1>John Doe</h1>
+                <div className="max-w-[60px] rounded-full overflow-hidden">
+                  <Image
+                    src="/images/profile-pic.jfif"
+                    alt="Profile Pic"
+                    width={60}
+                    height={60}
+                  />
+                </div>
+                <button className="px-3 py-1 bg-blue-600 text-white rounded-md">
+                  Follow
+                </button>
+              </div>
+              <div className="flex items-center justify-between my-5">
+                <div className="flex items-center gap-1">
+                  <FaCity />
+                  City
+                </div>
+                <div className="flex items-center gap-1">
+                  <MdWork />
+                  Job
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaFirefoxBrowser />
+                  Wbsite
+                </div>
+              </div>
+            </div>
             <div>
               {posts.map((post, index) => (
                 <SinglePost
