@@ -1,15 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../context/ThemeContextProvider";
 import { BsPlus } from "react-icons/bs";
 import { AiFillPicture } from "react-icons/ai";
 import SinglePost from "./SinglePost";
+import { axiosRequest } from "../utils/axios";
 
 const Center = () => {
   const { darkMode } = useContext(ThemeContext);
   const [text, setText] = useState<string>("");
   const [image, setImage] = useState<File>();
+  const [posts, setPosts] = useState([]);
 
-  const posts = [
+  console.log(posts);
+
+  const fetchPosts = async () => {
+    const data = await axiosRequest.get("/posts");
+    setPosts(data.data);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const damiPosts = [
     {
       image: "/images/story1.png",
       title: "Post 1 Title",
@@ -58,7 +71,10 @@ const Center = () => {
       <div>
         {posts.map((post, index) => (
           <SinglePost
-            image={post.image}
+            profilePic={post.profilePic}
+            username={post.username}
+            createdAt={post.createdAt}
+            image={post.postPic}
             title={post.title}
             desc={post.desc}
             key={index}

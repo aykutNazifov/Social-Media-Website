@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContextProvider";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { axiosRequest } from "../utils/axios";
 
 const validationSchema = yup.object({
   email: yup.string().email("Invalid email address").required("Required Field"),
@@ -17,22 +18,23 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
-  const { user } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
 
   const [error, setError] = useState("");
   const router = useRouter();
 
   const loginUser = async (data) => {
     try {
-      const token = await axios.post(
-        "http://localhost:3000/api/user/login",
-        data
-      );
+      const userData = await axiosRequest.post("/auth/login", data, {
+        withCredentials: true,
+      });
+
+      login(userData.data);
 
       router.push("/");
     } catch (error) {
       console.log(error);
-      setError(error.response.data);
+      setError("Sometging went wrong!");
     }
   };
 

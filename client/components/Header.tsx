@@ -6,11 +6,17 @@ import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
 import { AiOutlineSearch } from "react-icons/ai";
 import Image from "next/image";
 import { AuthContext } from "../context/AuthContextProvider";
+import { axiosRequest } from "../utils/axios";
 
 const Header = () => {
   const { darkMode, togleDarkMode } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user, logout } = useContext(AuthContext);
+
+  const userLogOut = async () => {
+    logout();
+    await axiosRequest.post("/auth/logout");
+  };
+
   return (
     <header
       className={`sticky z-50 top-0 w-full h-20 overflow-hidden flex items-center justify-between py-1 px-6 ${
@@ -45,7 +51,9 @@ const Header = () => {
         <div className="w-[60px] h-[60px] rounded-full overflow-hidden">
           <Image
             src={
-              user.profilePic ? user.profilePic : "/images/default-user.jpeg"
+              user && user.profilePic
+                ? user.profilePic
+                : "/images/default-user.jpeg"
             }
             alt="Profile Pic"
             width={60}
@@ -54,9 +62,11 @@ const Header = () => {
         </div>
         <div>
           <p className={` ${darkMode ? "text-white" : "text-black"}`}>
-            {user.username}
+            {user ? user.username : "test"}
           </p>
-          <button className="text-red-500">Log Out</button>
+          <button className="text-red-500" onClick={userLogOut}>
+            Log Out
+          </button>
         </div>
       </div>
     </header>

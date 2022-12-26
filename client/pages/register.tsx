@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContextProvider";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { axiosRequest } from "../utils/axios";
 
 const validationSchema = yup.object({
   username: yup
@@ -49,10 +50,7 @@ const Register = () => {
 
   const registerUser = async (data) => {
     try {
-      const user = await axios.post(
-        "http://localhost:3000/api/user/register",
-        data
-      );
+      await axiosRequest.post("/auth/register", data);
 
       router.push("/login");
     } catch (error) {

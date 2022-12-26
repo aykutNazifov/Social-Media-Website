@@ -5,19 +5,29 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { FiShare2 } from "react-icons/fi";
 import { ThemeContext } from "../context/ThemeContextProvider";
 import Comments from "./Comments";
+import moment, { MomentInput } from "moment";
 
 interface ISinglePost {
   image: String;
   title: String;
   desc: String;
+  createdAt: MomentInput;
+  profilePic: String;
+  username: String;
 }
 
-const SinglePost: React.FC<ISinglePost> = ({ image, title, desc }) => {
+const SinglePost: React.FC<ISinglePost> = ({
+  image,
+  title,
+  desc,
+  createdAt,
+  profilePic,
+  username,
+}) => {
   const { darkMode } = useContext(ThemeContext);
 
   const [showComments, setShowComments] = useState(false);
 
-  console.log(image);
   return (
     <div
       className={`w-full  p-3 mb-8 border border-solid  ${
@@ -27,20 +37,24 @@ const SinglePost: React.FC<ISinglePost> = ({ image, title, desc }) => {
       <div className="flex items-center gap-5 mb-3">
         <div className="max-w-[60px] rounded-full overflow-hidden">
           <Image
-            src="/images/profile-pic.jfif"
+            src={
+              profilePic ? `images/${profilePic}` : "/images/default-user.jpeg"
+            }
             alt="Profile Pic"
             width={60}
             height={60}
           />
         </div>
         <div className="flex flex-col gap-1">
-          <span>John Doe</span>
-          <span className="text-gray-500 text-[14px]">12 mins ago</span>
+          <span>{username}</span>
+          <span className="text-gray-500 text-[14px]">
+            {moment(createdAt).fromNow()}
+          </span>
         </div>
       </div>
       <div className=" mb-5">
         <Image
-          src={`${image}`}
+          src={`/${image}`}
           alt="img1"
           width={1200}
           height={400}
