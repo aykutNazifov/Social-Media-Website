@@ -8,6 +8,7 @@ import Comments from "./Comments";
 import moment, { MomentInput } from "moment";
 
 interface ISinglePost {
+  postId: Number;
   image: String;
   title: String;
   desc: String;
@@ -17,6 +18,7 @@ interface ISinglePost {
 }
 
 const SinglePost: React.FC<ISinglePost> = ({
+  postId,
   image,
   title,
   desc,
@@ -38,7 +40,7 @@ const SinglePost: React.FC<ISinglePost> = ({
         <div className="max-w-[60px] rounded-full overflow-hidden">
           <Image
             src={
-              profilePic ? `images/${profilePic}` : "/images/default-user.jpeg"
+              profilePic ? `/images/${profilePic}` : "/images/default-user.jpeg"
             }
             alt="Profile Pic"
             width={60}
@@ -52,15 +54,17 @@ const SinglePost: React.FC<ISinglePost> = ({
           </span>
         </div>
       </div>
-      <div className=" mb-5">
-        <Image
-          src={`/${image}`}
-          alt="img1"
-          width={1200}
-          height={400}
-          style={{ objectFit: "cover", width: "100%", maxHeight: "400px" }}
-        />
-      </div>
+      {image && (
+        <div className=" mb-5">
+          <Image
+            src={image ? `/images/${image}` : ""}
+            alt="img1"
+            width={1200}
+            height={400}
+            style={{ objectFit: "cover", width: "100%", maxHeight: "400px" }}
+          />
+        </div>
+      )}
       <div>
         <h2 className="text-2xl mb-2">{title}</h2>
         <p className="text-xl font-light">{desc}</p>
@@ -82,7 +86,7 @@ const SinglePost: React.FC<ISinglePost> = ({
       </div>
       {showComments && (
         <div className="mt-8">
-          <Comments />
+          <Comments postId={postId} />
         </div>
       )}
     </div>
